@@ -78,6 +78,10 @@ const openModal = () => {
     document.getElementById("token_modal").style.display = "block";
 }
 
+const closeModal = () => {
+    document.getElementById("token_modal").style.display = "none";
+}
+
 const logOut = async () => {
   await Moralis.User.logOut();
   console.log("logged out");
