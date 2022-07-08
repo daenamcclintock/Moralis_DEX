@@ -1,17 +1,17 @@
 /** Connect to Moralis server */
-const serverUrl = "";
-const appId = "";
+const serverUrl = "https://zszvwhvkt9vz.usemoralis.com:2053/server";
+const appId = "gWAfANE8Xv9Fkt9IRBXeKy2jJNQUSpshS1U1jlsF";
 Moralis.start({ serverUrl, appId });
 
 async function login() {
   let user = Moralis.User.current();
   if (!user) {
    try {
-      user = await Moralis.authenticate({ signingMessage: "Hello World!" })
+      user = await Moralis.authenticate({ signingMessage: "Welcome to DEX!" })
       console.log(user)
       console.log(user.get('ethAddress'))
    } catch(error) {
-     console.log(error)
+     console.error(error)
    }
   }
 }
