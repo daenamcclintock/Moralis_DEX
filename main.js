@@ -2,7 +2,11 @@
 const serverUrl = "https://zszvwhvkt9vz.usemoralis.com:2053/server";
 const appId = "gWAfANE8Xv9Fkt9IRBXeKy2jJNQUSpshS1U1jlsF";
 
-async function init() {
+let currentTrade = {};
+let currentSelectSide;
+let tokens;
+
+const init = async () => {
     await Moralis.start({ serverUrl, appId });
     await Moralis.enableWeb3();
     await listAvailableTokens();
@@ -12,7 +16,7 @@ async function init() {
     }
 }
 
-async function login() {
+const login = async () => {
   let user = Moralis.User.current();
   if (!user) {
    try {
@@ -25,12 +29,12 @@ async function login() {
   }
 }
 
-function openModal() {
+const openModal = () => {
     currentSelectSide = side;
     document.getElementById("token_modal").style.display = "block";
 }
 
-async function logOut() {
+const logOut = async () => {
   await Moralis.User.logOut();
   console.log("logged out");
 }
