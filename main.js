@@ -2,17 +2,41 @@
 const serverUrl = "https://zszvwhvkt9vz.usemoralis.com:2053/server";
 const appId = "gWAfANE8Xv9Fkt9IRBXeKy2jJNQUSpshS1U1jlsF";
 
-let currentTrade = {};
-let currentSelectSide;
-let tokens;
+let currentTrade = {}
+let currentSelectSide
+let tokens
 
 const init = async () => {
-    await Moralis.start({ serverUrl, appId });
-    await Moralis.enableWeb3();
-    await listAvailableTokens();
-    currentUser = Moralis.User.current();
+    await Moralis.start({ serverUrl, appId })
+    await Moralis.enableWeb3()
+    await listAvailableTokens()
+    currentUser = Moralis.User.current()
     if (currentUser) {
-      document.getElementById("swap_button").disabled = false;
+      document.getElementById("swap_button").disabled = false
+    }
+}
+
+const listAvailableTokens = async () => {
+    const result = await Moralis.Plugins.oneInch.getSupportedTokens({
+        chain: "eth" // change based on blockchain to use (eth, bsc, polygon)
+    })
+
+    tokens = result.tokens
+    let tokenList = document.getElementById("token_list")
+    for (const address in tokens) {
+        let token = tokens[address]
+        let div = document.createElement("div")
+        div.setAttribute("data-address", address)
+        div.className = "token_row"
+        let html = `
+            <img class="token_list_img" src="${token.logoURI}" />
+            <span class="token_list_text">${token.symbol}</span>
+        `
+        div.innerHTML = html
+        div.onclick = () => {
+            selectToken(address)
+        }
+        tokenList.appendChild(div)
     }
 }
 
