@@ -49,6 +49,17 @@ const selectToken = (address) => {
     getQuote()
 }
 
+const renderInterface = () => {
+    if (currentTrade.from) {
+        document.getElementById("from_token_img").src = currentTrade.from.logoURI
+        document.getElementById("from_token_text").innerHTML = currentTrade.from.symbol
+    }
+    if (currentTrade.to) {
+        document.getElementById("to_token_img").src = currentTrade.to.logoURI
+        document.getElementById("to_token_text").innerHTML = currentTrade.to.symbol
+    }
+}
+
 const login = async () => {
   let user = Moralis.User.current();
   if (!user) {
