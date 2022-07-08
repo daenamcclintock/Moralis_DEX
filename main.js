@@ -40,6 +40,15 @@ const listAvailableTokens = async () => {
     }
 }
 
+const selectToken = (address) => {
+    closeModal()
+    console.log(tokens)
+    currentTrade[currentSelectSide] = tokens[address]
+    console.log(currentTrade)
+    renderInterface()
+    getQuote()
+}
+
 const login = async () => {
   let user = Moralis.User.current();
   if (!user) {
