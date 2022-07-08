@@ -148,5 +148,15 @@ const doSwap = (userAddress, swapAmount) => {
     })
 }
 
-document.getElementById("btn-login").onclick = login;
-document.getElementById("btn-logout").onclick = logOut;
+init()
+
+document.getElementById("modal_close").onclick = closeModal
+document.getElementById("from_token_select").onclick = () => {
+  openModal("from")
+};
+document.getElementById("to_token_select").onclick = () => {
+  openModal("to")
+};
+document.getElementById("login_button").onclick = login
+document.getElementById("from_amount").onblur = getQuote
+document.getElementById("swap_button").onclick = trySwap
