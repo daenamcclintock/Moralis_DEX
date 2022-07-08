@@ -16,6 +16,11 @@ async function login() {
   }
 }
 
+function openModal() {
+    currentSelectSide = side;
+    document.getElementById("token_modal").style.display = "block";
+}
+
 async function logOut() {
   await Moralis.User.logOut();
   console.log("logged out");
