@@ -1,7 +1,16 @@
 /** Connect to Moralis server */
 const serverUrl = "https://zszvwhvkt9vz.usemoralis.com:2053/server";
 const appId = "gWAfANE8Xv9Fkt9IRBXeKy2jJNQUSpshS1U1jlsF";
-Moralis.start({ serverUrl, appId });
+
+async function init() {
+    await Moralis.start({ serverUrl, appId });
+    await Moralis.enableWeb3();
+    await listAvailableTokens();
+    currentUser = Moralis.User.current();
+    if (currentUser) {
+      document.getElementById("swap_button").disabled = false;
+    }
+}
 
 async function login() {
   let user = Moralis.User.current();
