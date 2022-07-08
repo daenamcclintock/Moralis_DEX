@@ -61,16 +61,16 @@ const renderInterface = () => {
 }
 
 const login = async () => {
-  let user = Moralis.User.current();
-  if (!user) {
-   try {
-      user = await Moralis.authenticate({ signingMessage: "Welcome to DEX!" })
-      console.log(user)
-      console.log(user.get('ethAddress'))
-   } catch(error) {
-     console.error(error)
-   }
-  }
+    try {
+        currentUser = Moralis.User.current();
+        if (!currentUser) {
+            currentUser = await Moralis.authenticate();
+        }
+        document.getElementById("swap_button").disabled = false;
+    } 
+    catch (error) {
+        console.error(error);
+    }
 }
 
 const openModal = () => {
