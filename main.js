@@ -137,6 +137,16 @@ const trySwap = async () => {
     }
 }
 
+const doSwap = (userAddress, swapAmount) => {
+    return Moralis.Plugins.oneInch.swap({
+        chain: "eth", // change based on blockchain to use (eth, bsc, polygon)
+        fromTokenAddress: currentTrade.from.address, // token that will be swapped
+        toTokenAddress: currentTrade.to.address, // token that will be received
+        amount: swapAmount, // amount of token specified to swap
+        fromAddress: userAddress, // sender's wallet address
+        slippage: 1,
+    })
+}
 
 document.getElementById("btn-login").onclick = login;
 document.getElementById("btn-logout").onclick = logOut;
