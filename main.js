@@ -66,6 +66,8 @@ async function login() {
       currentUser = await Moralis.authenticate();
     }
     document.getElementById("swap_button").disabled = false;
+    document.getElementById("login_button").remove()
+    document.getElementById("metamask_logo").remove()
   } catch (error) {
     console.log(error);
   }
