@@ -108,5 +108,35 @@ const logOut = async () => {
   console.log("logged out");
 }
 
+const trySwap = async () => {
+    let address = Moralis.User.current().get("ethAddress")
+    let swapAmount = parseInt(document.getElementById("from_amount").value * 10 ** currentTrade.from.decimals)
+    if (currentTrade.from.symbol !== "ETH") {
+        const allowance = await Moralis.Plugins.oneInch.hasAllowance({
+            chain: "eth", // change based on blockchain to use (eth, bsc, polygon)
+            fromTokenAddress: currentTrade.from.address, // token that will be swapped
+            fromAddress: address, // sender's wallet address
+            amount: swapAmount, // amount to swap
+        })
+        console.log(`Allowance: ${allowance}`)
+        if (!allowance) {
+            await Moralis.Plugins.oneInch.approve({
+                chain: "eth", // change based on blockchain to use (eth, bsc, polygon)
+                tokenAddress: currentTrade.from.address, // token that will be swapped
+                fromAddress: address, // sender's wallet address
+            })
+        }
+    }
+    try {
+        let receipt = await doSwap(address, swapAmount)
+        alert("Swap Complete!")
+        console.log("Swap successfull!")
+    } 
+    catch (error) {
+        console.error(error)
+    }
+}
+
+
 document.getElementById("btn-login").onclick = login;
 document.getElementById("btn-logout").onclick = logOut;
