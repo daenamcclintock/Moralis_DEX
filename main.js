@@ -82,6 +82,27 @@ const closeModal = () => {
     document.getElementById("token_modal").style.display = "none";
 }
 
+const getQuote = async () => {
+    let fromAmountValue = document.getElementById("from_amount").value
+    if (!currentTrade.from || !currentTrade.to || !fromAmountValue) {
+        return
+    }
+
+    let swapAmount = parseInt(document.getElementById("from_amount").value * 10 ** currentTrade.from.decimals)
+    console.log(`Amount to be swapped: ${swapAmount}`)
+    const quote = await Moralis.Plugins.oneInch.quote({
+        chain: "eth", // change based on blockchain to use (eth, bsc, polygon)
+        fromTokenAddress: currentTrade.from.address, // token that will be swapped
+        toTokenAddress: currentTrade.to.address, // token that will be received
+        amount: swapAmount, // amount of token specified to swap
+    });
+    console.log(`Quote: ${quote}`);
+    const gasEstimate = document.getElementById("gas_estimate").innerHTML = quote.estimatedGas;
+    console.log(`Gas Estimate ${gasEstimate}`)
+    const receiveAmount = document.getElementById("to_amount").value = quote.toTokenAmount / 10 ** quote.toToken.decimals;
+    console.log(`SWAPPED ${swapAmount} of ${fromTokenAddress} for ${receiveAmount} of ${toTokenAddress}`)
+}
+
 const logOut = async () => {
   await Moralis.User.logOut();
   console.log("logged out");
